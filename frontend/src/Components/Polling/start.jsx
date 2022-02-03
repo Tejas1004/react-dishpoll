@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Data from "../../Resources/db.json";
 import axios from "axios";
 export default function Start() {
@@ -10,7 +10,7 @@ export default function Start() {
   const [third, setThird] = useState(null);
   var datas = Data;
   console.log(datas);
-  const onSearchhandler = (e) => {
+  const handler = (e) => {
     let filtered = datas.filter((item) =>
       item.name.includes(e.currentTarget.value)
     );
@@ -19,13 +19,13 @@ export default function Start() {
   useEffect(() => {axios.get("https://raw.githubusercontent.com/syook/react-dishpoll/main/db.json")
       .then((res) => {setData(res.data);console.log(res);});}, []);
   const rankone = (e) => {
-    if (e !== second && e !== rank3) {
+    if (e !== second && e !== third) {
       localStorage.setItem("first", e);
       setFirst(e);
     }
   };
   const ranktwo = (e) => {
-    if (e !== first && e !== rank3) {
+    if (e !== first && e !== third) {
       localStorage.setItem("second", e);
       setSecond(e);
     }
@@ -41,7 +41,7 @@ export default function Start() {
   };
   return (
     <div className="start">
-      {rank1 !== null && second !== null && third !== null ? (
+      {first !== null && second !== null && third !== null ? (
         <button onClick={pollhandler}><Link to="/result">Submit Poll</Link></button>
       ) : (
         <div />
