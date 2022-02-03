@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate,Link } from 'react-router-dom';
 import Users from "../Resources/users.json";
 //import axios from "axios";
 export default function Login() {
@@ -13,12 +13,11 @@ export default function Login() {
     const passwordOnchange = (e) =>{
         setPassword(e.currentTarget.value);
     };
-    const Navigate = useNavigate();
+
     const submitOnchange = () => {
         var person = user.filter((item) =>item.username === username && item.password === password);
         if(person.length>0){
             sessionStorage.setItem("user",username)
-            Navigate("/form")
         }
     }
 
@@ -29,7 +28,7 @@ export default function Login() {
              
               <input type="text" placeholder="Enter Name" value={username} onChange={(e) => usernameOnchange(e)} />  <br/>
               <input type="text" placeholder="Enter Password" value={password} onChange={(e) => passwordOnchange(e)}/> <br/>
-               <button onClick={submitOnchange}>Login</button>
+               <button onClick={submitOnchange}> <Link to="/form"> Login</Link></button>
              </div>
         </div>
     )
