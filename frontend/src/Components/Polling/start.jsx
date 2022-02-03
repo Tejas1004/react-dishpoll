@@ -5,9 +5,9 @@ import axios from "axios";
 export default function Start() {
 
   const [data, setData] = useState([]);
-  const [rank1, setRank1] = useState(null);
-  const [rank2, setRank2] = useState(null);
-  const [rank3, setRank3] = useState(null);
+  const [first, setFirst] = useState(null);
+  const [second, setSecond] = useState(null);
+  const [third, setThird] = useState(null);
   var datas = Data;
   console.log(datas);
   const onSearchhandler = (e) => {
@@ -16,32 +16,24 @@ export default function Start() {
     );
     setData(filtered);
   };
-  useEffect(() => {
-    axios
-      .get(
-        "https://raw.githubusercontent.com/syook/react-dishpoll/main/db.json"
-      )
-      .then((res) => {
-        setData(res.data);
-        console.log(res);
-      });
-  }, []);
+  useEffect(() => {axios.get("https://raw.githubusercontent.com/syook/react-dishpoll/main/db.json")
+      .then((res) => {setData(res.data);console.log(res);});}, []);
   const rankone = (e) => {
-    if (e !== rank2 && e !== rank3) {
-      localStorage.setItem("rank1", e);
-      setRank1(e);
+    if (e !== second && e !== rank3) {
+      localStorage.setItem("first", e);
+      setFirst(e);
     }
   };
   const ranktwo = (e) => {
-    if (e !== rank1 && e !== rank3) {
-      localStorage.setItem("rank2", e);
-      setRank2(e);
+    if (e !== first && e !== rank3) {
+      localStorage.setItem("second", e);
+      setSecond(e);
     }
   };
   const rankthree = (e) => {
-    if (e !== rank2 && e !== rank1) {
-      localStorage.setItem("rank3", e);
-      setRank3(e);
+    if (e !== second && e !== first) {
+      localStorage.setItem("third", e);
+      setThird(e);
     }
   };
   const pollhandler = () => {
@@ -49,7 +41,7 @@ export default function Start() {
   };
   return (
     <div className="start">
-      {rank1 !== null && rank2 !== null && rank3 !== null ? (
+      {rank1 !== null && second !== null && third !== null ? (
         <button onClick={pollhandler}><Link to="/result">Submit Poll</Link></button>
       ) : (
         <div />
@@ -59,13 +51,13 @@ export default function Start() {
           ? data.map((item, index) => (
               <div key={index} className="itemCard">
                 <div className="buttonWrapper">
-                  <button className="rank" style={{background:item.id === rank1 ? "green" : "skyblue",}}onClick={() => rankone(item.id)}>
+                  <button className="rank" style={{background:item.id === first ? "green" : "skyblue",}}onClick={() => rankone(item.id)}>
                     1
                   </button>
-                  <button className="rank"style={{background:item.id === rank2 ? "green" : "skyblue",}}onClick={() => ranktwo(item.id)}>
+                  <button className="rank"style={{background:item.id === second ? "green" : "skyblue",}}onClick={() => ranktwo(item.id)}>
                     2
                   </button>
-                  <button className="rank"style={{background:item.id === rank3 ? "green" : "skyblue",}}onClick={() => rankthree(item.id)}>
+                  <button className="rank"style={{background:item.id === third ? "green" : "skyblue",}}onClick={() => rankthree(item.id)}>
                     3
                   </button>
                 </div>
@@ -73,8 +65,7 @@ export default function Start() {
                      <h2>{item.dishName}</h2>
                      <p>{item.description}</p>
                 </div>
-            ))
-          : null}
+            )): null}
       </div>
     </div>
   );
